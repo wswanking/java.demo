@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wswanking.demo.db.write.data.mapper.MessageMapper">
+
+    <resultMap type="Message" id="MessageResult">
+        <id     property="id"       column="id"      />
+        <result property="message"        column="message"  />
+        <result property="time"       column="time"       />
+    </resultMap>
+
+    <insert id="insertMessage" parameterType="Message">
+        insert into message(
+        <if test="message != null and message != ''">message,</if>
+        time
+        )values(
+        <if test="message != null and message != ''">#{message},</if>
+        sysdate()
+        )
+    </insert>
+
+</mapper>
