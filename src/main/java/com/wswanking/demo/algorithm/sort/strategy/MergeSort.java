@@ -1,20 +1,17 @@
 package com.wswanking.demo.algorithm.sort.strategy;
 
 import com.wswanking.demo.algorithm.sort.OrderEnum;
-import com.wswanking.demo.algorithm.sort.Sort;
 
 import java.util.Arrays;
 
-
-public class MergeSort implements Sort {
+/**
+ * (非原址排序方式)
+ * 时间复杂度O(n) = nlgn
+ * 空间复杂度O(n) = n
+ */
+public class MergeSort extends BaseSort {
     private Integer smallestSize = 2;
     private OrderEnum orderEnum = OrderEnum.ASC;
-
-    @Override
-    public Sort withOrder(OrderEnum orderEnum) {
-        this.orderEnum = orderEnum;
-        return this;
-    }
 
     @Override
     public <T extends Comparable<T>> void sort(T[] array) {
@@ -36,7 +33,6 @@ public class MergeSort implements Sort {
             mergeSort(array,midIndex+1,endIndex);
             merge(array,startIndex,endIndex);
         }
-
     }
 
     private <T extends Comparable<T>>  void merge(T[] array,Integer startIndex,Integer endIndex){
@@ -55,30 +51,15 @@ public class MergeSort implements Sort {
             }else if (isArrayAllMerged(leftArray,leftArrayIndex)){
                 array[startIndex] = rightArray[rightArrayIndex];
                 rightArrayIndex++;
-            }else if(isLeftArrayValueMatchCondition(leftArray[leftArrayIndex],rightArray[rightArrayIndex])){
+            }else if(isValueMatchCondition(leftArray[leftArrayIndex],rightArray[rightArrayIndex])){
                 array[startIndex] = leftArray[leftArrayIndex];
                 leftArrayIndex++;
-            }else if(!isLeftArrayValueMatchCondition(leftArray[leftArrayIndex],rightArray[rightArrayIndex])){
+            }else if(!isValueMatchCondition(leftArray[leftArrayIndex],rightArray[rightArrayIndex])){
                 array[startIndex] = rightArray[rightArrayIndex];
                 rightArrayIndex++;
             }
             startIndex++;
         }
-    }
-
-    private <T extends Comparable<T>> boolean isLeftArrayValueMatchCondition(T leftValue,T rightValue){
-        boolean match = false;
-        switch (orderEnum){
-            case ASC:
-                match = leftValue.compareTo(rightValue) <= 0;
-                break;
-            case DESC:
-                match = leftValue.compareTo(rightValue) >= 0;
-                break;
-            default:
-                break;
-        }
-        return match;
     }
 
     private <T extends Comparable<T>> boolean isArrayAllMerged(T[]array,Integer index){

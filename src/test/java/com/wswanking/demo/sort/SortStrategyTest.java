@@ -1,7 +1,9 @@
 package com.wswanking.demo.sort;
 
 
+import com.wswanking.demo.algorithm.sort.Sort;
 import com.wswanking.demo.algorithm.sort.SortStrategy;
+import com.wswanking.demo.algorithm.sort.strategy.HeapSort;
 import com.wswanking.demo.algorithm.sort.strategy.MergeSort;
 import com.wswanking.demo.utils.ArrayUtil;
 import org.junit.jupiter.api.Assertions;
@@ -17,9 +19,18 @@ public class SortStrategyTest {
 
     @Test
     void mergeSortTest(){
-        Integer[]unSortedArray = buildRandomIntegerArray(100000,0,100000);
+        sortTest(new MergeSort());
+    }
+
+    @Test
+    void HeadSortTest(){
+        sortTest(new HeapSort());
+    }
+
+    private void sortTest(Sort sort) {
+        Integer[]unSortedArray = buildRandomIntegerArray(10000,0,100000);
         Integer[]sortedArray = Arrays.copyOf(unSortedArray,unSortedArray.length);
-        SortStrategy sortStrategy = new SortStrategy(new MergeSort());
+        SortStrategy sortStrategy = new SortStrategy(sort);
         sortStrategy.sort(sortedArray);
         Assertions.assertArrayEquals(sortedArray,getExpectedSortedArray(unSortedArray));
     }
